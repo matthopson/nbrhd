@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Start Bootstrap - SB Admin Version 2.0 Demo</title>
+
+    <!-- Core CSS - Include with every page -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- SB Admin CSS - Include with every page -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- App CSS -->
+    <link href="css/app.css" rel="stylesheet">
+</head>
+
+<body id="app">
+
+    <div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Let's Go</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+        </nav>
+        <!-- /.navbar-static-top -->
+
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li ng-controller="PropertyController">
+                        <a href="#"><i class="fa fa-flag"></i>&nbsp; Properties<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="input">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" ng-model="text" required placeholder="Seattle, WA...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" ng-click="addProperty(text)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                <!-- /input-group -->
+                                </a>
+                            </li>
+                            <li ng-repeat="property in properties"><a ng-click="setActiveProperty(property)">{{property.address}}<button type="button" ng-click="removeProperty(property)" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-times"></i></button></a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li ng-controller="CategoryController">
+                        <a href="#"><i class="fa fa-foursquare"></i> Categories<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="input">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" ng-model="text" required placeholder="Coffee...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" ng-click="addCategory(text)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <!-- /input-group -->
+                                </a>
+                            </li>
+                            <li ng-repeat="category in categories"><a>{{category.name}}<button type="button" ng-click="removeCategory(category)" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-times"></i></button></a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                </ul>
+                <!-- /#side-menu -->
+            </div>
+            <!-- /.sidebar-collapse -->
+        </nav>
+        <!-- /.navbar-static-side -->
+
+        <div id="page-wrapper" >
+            <!-- Map -->
+            <section id="map" ng-controller="MapController">
+                <!-- this is the confusing part. we have to point the map marker directive
+                    at an existing google.maps.Marker object, so it can hook up events -->
+                <div ui-map-marker="propertyMarker"
+                     ui-event="{'map-click': 'openMarkerInfo(propertyMarker)'}">
+                </div>
+
+                <div ng-repeat="category in categories">
+                    <div ui-map-marker="category.marker"
+                         ui-event="{'map-click': 'openMarkerInfo(category.marker)'}">
+                    </div>
+                </div>
+
+
+                <div ui-map-info-window="infoWindow">
+                    <h1>Marker</h1>
+                    Lat: <input ng-model="currentMarkerLat">, Lng: <input ng-model="currentMarkerLng">
+                    <a ng-click="setMarkerPosition(currentMarker, currentMarkerLat, currentMarkerLng)">Set Position</a>
+                </div>
+
+                <div  ui-map="map" ui-options="mapOptions" class="map-canvas"
+                      ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(map.getZoom())' }" ></div>
+            </section>
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Core Scripts - Include with every page -->
+    <script src="lib/jquery-2.1.0.js"></script>
+    <script src="lib/bootstrap.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="lib/sb-admin.js"></script>
+
+    <!-- Angular Scripts -->
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+
+    <!-- for all the modules -->
+    <script type="text/javascript" src="lib/angular-ui-utils/event/event.js"></script>
+
+    <!-- for ui-map -->
+    <script type="text/javascript" src="lib/ui-map.js"></script>
+
+    <!-- Angular App Code -->
+    <script src="js/app.js"></script>
+    <script src="js/properties/propertyController.js"></script>
+    <script src="js/properties/propertyService.js"></script>
+    <script src="js/categories/categoryController.js"></script>
+    <script src="js/categories/categoryService.js"></script>
+    <script src="js/map/mapController.js"></script>
+    <script src="js/map/geocodeService.js"></script>
+
+    <!-- Google Maps: Api Key &key=AIzaSyANOL6pkBlbpVuu0kVsc_Y-4SnfWK3BjrM -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+
+</body>
+
+</html>

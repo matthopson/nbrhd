@@ -9,32 +9,46 @@
 // In this case it is a simple value service.
 services
     .service('PropertyService', [function() {
-        var properties = [];
-        var activeProperty;
-
-        this.getProperties = function() {
-            return properties;
-        };
-
-        this.addProperty = function(address) {
-            properties.push({address: address});
-            if (properties.length == 1) {
-                activeProperty = properties[0];
-            }
-        };
-
-        this.removeProperty = function(property) {
-            var newProperties = properties.filter(function(p) {
-                return p != property;
-            });
-            properties = newProperties;
-        };
-
-        this.getActiveProperty = function() {
-            return activeProperty;
-        };
-
-        this.setActiveProperty = function(property) {
-            activeProperty = property;
-        };
+        return PropertyService.PropertyModule();
     }]);
+
+var PropertyService = PropertyService || {};
+
+PropertyService.PropertyModule = function() {
+    var properties = [];
+    var activeProperty = null;
+
+    var getProperties = function() {
+        return properties;
+    };
+
+    var addProperty = function(address) {
+        properties.push({address: address});
+        if (properties.length == 1) {
+            activeProperty = properties[0];
+        }
+    };
+
+    var removeProperty = function(property) {
+        var newProperties = properties.filter(function(p) {
+            return p != property;
+        });
+        properties = newProperties;
+    };
+
+    var getActiveProperty = function() {
+        return activeProperty;
+    };
+
+    var setActiveProperty = function(property) {
+        activeProperty = property;
+    };
+
+    return {
+        getProperties: getProperties,
+        addProperty: addProperty,
+        removeProperty: removeProperty,
+        getActiveProperty: getActiveProperty,
+        setActiveProperty: setActiveProperty
+    };
+};

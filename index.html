@@ -131,7 +131,7 @@
                 </div>
 
                 <div  ui-map="map" ui-options="mapOptions" class="map-canvas"
-                      ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(map.getZoom())' }" ></div>
+                      ui-event="{'map-click': 'addMarker($event, $params)'}" ></div>
             </section>
         </div>
         <!-- /#page-wrapper -->
@@ -151,7 +151,7 @@
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-route.js"></script>
 
-    <!-- for all the modules -->
+    <!-- for ui-events -->
     <script type="text/javascript" src="lib/angular-ui-utils/event/event.js"></script>
 
     <!-- for ui-map -->
@@ -165,6 +165,7 @@
     <script src="js/categories/categoryService.js"></script>
     <script src="js/map/mapController.js"></script>
     <script src="js/map/geocodeService.js"></script>
+    <script src="js/foursquare/foursquareService.js"></script>
 
     <!-- Google Maps: Api Key &key=AIzaSyANOL6pkBlbpVuu0kVsc_Y-4SnfWK3BjrM -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>

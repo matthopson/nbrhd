@@ -1,18 +1,19 @@
 /**
  * Created by Hunter on 2/10/14.
  */
-app.controller('MapController', ['$scope', 'PropertyService', 'CategoryService', 'GeocodeService', function ($scope, propertyService, categoryService, geocodeService) {
-    $scope.propertyMarker;
-
+app.controller('MapController', ['$scope', 'PropertyService', 'CategoryService', 'GeocodeService', 'FoursquareService', function ($scope, propertyService, categoryService, geocodeService, foursquareService) {
     $scope.mapOptions = {
         center: new google.maps.LatLng(35.784, -78.670),
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
+    $scope.activeProperty;
+    $scope.propertyMarker;
+
     $scope.$watch(function() { return propertyService.getActiveProperty(); }, function() {
-        var activeProperty = propertyService.getActiveProperty();
-        geocodeService.geocode(activeProperty.address, function(result) {
+        $scope.activeProperty = propertyService.getActiveProperty();
+        geocodeService.geocode($scope.activeProperty.address, function(result) {
             $scope.propertyMarker = new google.maps.Marker({
                 map: $scope.map,
                 position: result
@@ -21,16 +22,22 @@ app.controller('MapController', ['$scope', 'PropertyService', 'CategoryService',
         });
     });
 
+    $scope.categories;
+
+    $scope.$watch(function() { return propertyService.getActiveProperty(); }, function() {
+        var categories = categoryService.getCategories();
+        for(var c in categories) {
+            var query = categories[c].name;
+            var near = $scope.activeProperty.address;
+            var category = foursquareService.explore(query, near);
+        }
+    });
+
     $scope.addMarker = function($event, $params) {
         $scope.markers.push(new google.maps.Marker({
             map: $scope.map,
             position: $params[0].latLng
         }));
-    };
-
-    $scope.setZoomMessage = function(zoom) {
-        $scope.zoomMessage = 'You just zoomed to '+zoom+'!';
-        console.log(zoom,'zoomed')
     };
 
     $scope.openMarkerInfo = function(marker) {

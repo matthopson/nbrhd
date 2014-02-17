@@ -22,8 +22,8 @@ PropertyService.PropertyModule = function() {
         return properties;
     };
 
-    var addProperty = function(address) {
-        properties.push({address: address});
+    var addProperty = function(property) {
+        properties.push(property);
         if (properties.length == 1) {
             activeProperty = properties[0];
         }

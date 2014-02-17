@@ -1,3 +1,7 @@
 /* app css stylesheet */
 
+/* for ui-map */
 .map-canvas { height: 800px; }
+
+/* for ui-bootstrap */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

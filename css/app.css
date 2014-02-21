@@ -5,3 +5,8 @@
 
 /* for ui-bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+/* get rid of them pesky brackets while app is loading */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}

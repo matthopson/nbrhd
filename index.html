@@ -67,7 +67,7 @@
                             <li>
                                 <a ng-click="openPropertyDetailModal(null)">Add Property<span type="button" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-plus"></i></span></a>
                             </li>
-                            <li ng-repeat="property in properties"><a ng-click="setActiveProperty(property)">{{property.street}}<button type="button" ng-click="removeProperty(property)" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-times"></i></button></a></li>
+                            <li ng-cloak ng-repeat="property in properties"><a ng-click="setActiveProperty(property)">{{property.street}}<button type="button" ng-click="removeProperty(property)" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-times"></i></button></a></li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -87,7 +87,7 @@
                                     <!-- /input-group -->
                                 </a>
                             </li>
-                            <li ng-repeat="category in categories"><a>{{category.name}}<button type="button" ng-click="removeCategory(category)" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-times"></i></button></a></li>
+                            <li ng-cloak ng-repeat="category in categories"><a>{{category.name}}<button type="button" ng-click="removeCategory(category)" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-times"></i></button></a></li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -107,7 +107,7 @@
                      ui-event="{'map-click': 'openPropertyInfo()'}">
                 </div>
 
-                <div ui-map-info-window="propertyInfoWindow">
+                <div ng-cloak ui-map-info-window="propertyInfoWindow">
                     {{activeProperty.address}}
                 </div>
 
@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-                <div ui-map-info-window="venueInfoWindow">
+                <div ng-cloak ui-map-info-window="venueInfoWindow">
                     {{currentVenue.name}}<br />
                     {{currentVenue.rating}}
                 </div>
